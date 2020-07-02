@@ -1,5 +1,7 @@
 package mtk.domain;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -121,5 +123,44 @@ public class CompanyTestFixed
         EmployeeFixed employee = this.company.findEmployeeById("123");
         employee.setName("Tommy Lee");
         Assert.assertEquals("Tommy Lee", this.company.findEmployeeById("123").getName());
+    }
+
+    @Test
+    public void everybodyGetsRaise_softly()
+    {
+        /*
+         * Soft assertions assertAll not called...
+         */
+
+        final SoftAssertions softly = new SoftAssertions();
+
+        double increaseBy = 0.1; // everybody's salary should go up by this fraction
+
+        this.company.addEmployee(new EmployeeFixed("123", "Dave", 100_000.00));
+        this.company.addEmployee(new EmployeeFixed("456", "Alice", 120_000.00));
+        this.company.addEmployee(new EmployeeFixed("789", "Bob",   110_000.00));
+
+        this.company.everybodyGetsRaiseBy(increaseBy);
+
+        EmployeeFixed dave = this.company.findEmployeeById("123");
+        EmployeeFixed alice = this.company.findEmployeeById("456");
+        EmployeeFixed bob = this.company.findEmployeeById("789");
+
+        softly.assertThat(dave.getSalary()).isEqualTo(110_000.00, Assertions.offset(0.001d));
+        softly.assertThat(alice.getSalary()).isEqualTo(132_000.00, Assertions.offset(0.001d));
+        softly.assertThat(bob.getSalary()).isEqualTo(121_000.00, Assertions.offset(0.001d));
+
+        softly.assertAll();
+        // Better alternative would be to use JUnitSoftAssertions as a @Rule instead of assertAll,
+        // because this would call assertAll automatically.
+        // Other alternative without using @Rule would be AutoCloseableSoftAssertions.
+        // See more under https://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html
+
+        // Side note: Use soft assertions only when it really makes sense. Normally a test should test one thing.
+        // Soft assertions make sense in order to test different parameter combinations for the same functionality
+        // e.g. testing for StringUtils.trim with different types of whitespace it would make sense
+        // because we'd test the same thing i.e. trim but with slightly different input parameters.
+        // Don't use softly in order to test different methods of the testee in one test method.
+
     }
 }
