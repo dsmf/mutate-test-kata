@@ -2,109 +2,117 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>zakhav.test</groupId>
-    <artifactId>mutation-test-kata</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>solutions</module>
-        <module>kata</module>
-    </modules>
+  <groupId>zakhav.test</groupId>
+  <artifactId>mutation-test-kata</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>solutions</module>
+    <module>kata</module>
+  </modules>
 
-    <properties>
-<!--        <maven.compiler.release>11</maven.compiler.release>-->
-        <junit.version>4.12</junit.version>
-        <mockito.version>3.0.0</mockito.version>
-        <pitest.version>1.4.10</pitest.version>
-    </properties>
+  <properties>
+    <!--        <maven.compiler.release>11</maven.compiler.release>-->
+    <junit.version>4.12</junit.version>
+    <mockito.version>3.0.0</mockito.version>
+    <pitest.version>1.4.10</pitest.version>
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+    </dependency>
 
-        <dependency>
+    <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-maven</artifactId>
+      <version>${pitest.version}</version>
+      <type>maven-plugin</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.16.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--            <plugin>-->
+      <!--                <groupId>org.pitest</groupId>-->
+      <!--                <artifactId>pitest-maven</artifactId>-->
+      <!--                <version>${pitest.version}</version>-->
+      <!--                <configuration>-->
+      <!--                    <targetClasses>-->
+      <!--                        <param>mtk.domain*</param>-->
+      <!--                    </targetClasses>-->
+      <!--                    <targetTests>-->
+      <!--                        <param>mtk.domain*</param>-->
+      <!--                    </targetTests>-->
+      <!--                    <mutators>-->
+      <!--                        <mutator>NEW_DEFAULTS</mutator>-->
+      <!--                    </mutators>-->
+      <!--                </configuration>-->
+      <!--            </plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <!--                    <release>11</release>-->
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>pitest</id>
+      <build>
+        <plugins>
+          <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
             <version>${pitest.version}</version>
-            <type>maven-plugin</type>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.pitest</groupId>-->
-<!--                <artifactId>pitest-maven</artifactId>-->
-<!--                <version>${pitest.version}</version>-->
-<!--                <configuration>-->
-<!--                    <targetClasses>-->
-<!--                        <param>mtk.domain*</param>-->
-<!--                    </targetClasses>-->
-<!--                    <targetTests>-->
-<!--                        <param>mtk.domain*</param>-->
-<!--                    </targetTests>-->
-<!--                    <mutators>-->
-<!--                        <mutator>NEW_DEFAULTS</mutator>-->
-<!--                    </mutators>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-<!--                    <release>11</release>-->
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+            <executions>
+              <execution>
+                <id>pitest</id>
+                <phase>test</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <targetClasses>
+                <param>mtk.domain*</param>
+              </targetClasses>
+              <targetTests>
+                <param>mtk.domain*</param>
+              </targetTests>
+              <mutators>
+                <mutator>NEW_DEFAULTS</mutator>
+              </mutators>
+            </configuration>
+          </plugin>
         </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>pitest</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-maven</artifactId>
-                        <version>${pitest.version}</version>
-                        <executions>
-                            <execution>
-                                <id>pitest</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>mutationCoverage</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <targetClasses>
-                                <param>mtk.domain*</param>
-                            </targetClasses>
-                            <targetTests>
-                                <param>mtk.domain*</param>
-                            </targetTests>
-                            <mutators>
-                                <mutator>NEW_DEFAULTS</mutator>
-                            </mutators>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+      </build>
+    </profile>
+  </profiles>
 </project>
