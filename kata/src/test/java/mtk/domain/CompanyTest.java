@@ -94,6 +94,7 @@ public class CompanyTest {
 
     @Test
     public void everybodyGetsRaise_softly() {
+
         final SoftAssertions softly = new SoftAssertions();
 
         double increaseBy = 0.1; // everybody's salary should go up by this fraction

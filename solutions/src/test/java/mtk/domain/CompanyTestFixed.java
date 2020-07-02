@@ -130,6 +130,7 @@ public class CompanyTestFixed
     {
         /*
          * Soft assertions assertAll not called...
+         * TODO allerdings offenbar nicht mit Mutation Testing erkennbar. Warum nicht? Hätte ich eigentlich erwartet...
          */
 
         final SoftAssertions softly = new SoftAssertions();
