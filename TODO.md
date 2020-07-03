@@ -1,4 +1,8 @@
 
-TODO würde pitest helfen den Fehler bei diesem Mockito-Rätsel zu finden?
-  https://confluence.doubleslash.de/confluence/pages/viewpage.action?pageId=102744982
-  https://github.com/doubleSlashde/mockito-riddle/blob/master/src/test/java/MockitoTest.java
+TODO wï¿½rde pitest helfen den Fehler bei diesem Mockito-Rï¿½tsel zu finden?
+* https://confluence.doubleslash.de/confluence/pages/viewpage.action?pageId=102744982
+* https://github.com/doubleSlashde/mockito-riddle/blob/master/src/test/java/MockitoTest.java
+
+TODO add examples for 
+* Flickering" tests (tests with nondeterministic behavior)
+* Interdependencies between tests (e.g., execution order)

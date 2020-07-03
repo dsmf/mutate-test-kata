@@ -131,6 +131,8 @@ public class CompanyTestFixed
         /*
          * Soft assertions assertAll not called...
          * TODO allerdings offenbar nicht mit Mutation Testing erkennbar. Warum nicht? Hätte ich eigentlich erwartet...
+         *  Offenbar wird es dann nicht erkannt, wenn es noch einen anderen Test gibt, der die everybodyGetsRaiseBy abdeckt.
+         *  Kommentiert man everybodyGetsRaise aus, so gibt es überlebende Mutanten von everybodyGetsRaiseBy.
          */
 
         final SoftAssertions softly = new SoftAssertions();
